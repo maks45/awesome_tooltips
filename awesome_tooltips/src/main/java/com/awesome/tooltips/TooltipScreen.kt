@@ -16,17 +16,19 @@ import com.awesome.tooltips.contentProvider.content.DefaultSceneContentProvider
 import com.awesome.tooltips.data.DefaultTooltipDataProvider
 import com.awesome.tooltips.data.TooltipDataProvider
 import com.awesome.tooltips.scene.Empty
-import com.awesome.tooltips.scene.TooltipScene
-import kotlinx.coroutines.flow.Flow
+import com.awesome.tooltips.scene.SceneFlowProvider
+
+
+/*This screen should be placed in the root container*/
 
 @Composable
 fun TooltipScreen(
-    tooltipSceneFlow: Flow<TooltipScene>,
+    sceneFlowProvider: SceneFlowProvider,
     elementContentProvider: TooltipElementContentProvider = DefaultElementContentProvider(),
     sceneContentProvider: TooltipSceneContentProvider = DefaultSceneContentProvider(),
     dataProvider: TooltipDataProvider = DefaultTooltipDataProvider,
 ) {
-    val tooltipState = tooltipSceneFlow.collectAsState(initial = Empty)
+    val tooltipState = sceneFlowProvider.tooltipsSceneFlow.collectAsState(initial = Empty)
     val dataList = dataProvider.tooltipData(tooltipState.value)
 
     DisposableEffect(key1 = Unit) {

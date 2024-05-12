@@ -20,6 +20,9 @@ import androidx.compose.ui.unit.sp
 import com.awesome.tooltips.TooltipScreen
 import com.awesome.tooltips.addTooltip
 import com.awesome.tooltips.mask.MaskType
+import com.awesome.tooltips.scene.SceneFlowProvider
+import com.awesome.tooltips.scene.TooltipScene
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class MainActivity : ComponentActivity() {
@@ -71,8 +74,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
             TooltipScreen(
-                tooltipSceneFlow = flow {
-                    emit(InitialTooltipScene)
+                sceneFlowProvider = object : SceneFlowProvider {
+                    override val tooltipsSceneFlow: Flow<TooltipScene>
+                        get() = flow {
+                            emit(InitialTooltipScene)
+                        }
                 },
                 elementContentProvider = ExampleTooltipElementContentProvider
             )
