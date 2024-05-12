@@ -13,6 +13,8 @@ import com.awesome.tooltips.contentProvider.TooltipElementContentProvider
 import com.awesome.tooltips.contentProvider.TooltipSceneContentProvider
 import com.awesome.tooltips.contentProvider.content.DefaultElementContentProvider
 import com.awesome.tooltips.contentProvider.content.DefaultSceneContentProvider
+import com.awesome.tooltips.data.DefaultTooltipDataProvider
+import com.awesome.tooltips.data.TooltipDataProvider
 import com.awesome.tooltips.scene.Empty
 import com.awesome.tooltips.scene.TooltipScene
 import kotlinx.coroutines.flow.Flow

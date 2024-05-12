@@ -12,7 +12,9 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
+import com.awesome.tooltips.data.DefaultTooltipDataProvider
 import com.awesome.tooltips.data.TooltipData
+import com.awesome.tooltips.data.TooltipDataProvider
 import com.awesome.tooltips.mask.MaskRef
 import com.awesome.tooltips.mask.MaskType
 import com.awesome.tooltips.scene.TooltipScene

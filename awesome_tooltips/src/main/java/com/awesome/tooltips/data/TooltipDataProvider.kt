@@ -1,6 +1,5 @@
-package com.awesome.tooltips
+package com.awesome.tooltips.data
 
-import com.awesome.tooltips.data.TooltipData
 import com.awesome.tooltips.scene.TooltipScene
 
 interface TooltipDataProvider {
