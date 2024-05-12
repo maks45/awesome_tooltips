@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.awesome.tooltips.TooltipScreen
 import com.awesome.tooltips.addTooltip
+import com.awesome.tooltips.mask.MaskType
 import kotlinx.coroutines.flow.flow
 
 class MainActivity : ComponentActivity() {
@@ -32,10 +33,20 @@ class MainActivity : ComponentActivity() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
+                    modifier = Modifier,
+                    text = "Just some text without tooltip",
+                    style = TextStyle(
+                        textAlign = TextAlign.Center,
+                        color = Color.Black,
+                        fontSize = 22.sp
+                    )
+                )
+                Text(
                     modifier = Modifier
+                        .padding(top = 50.dp)
                         .addTooltip(
                             InitialTooltipScene,
-                            TextMaskRef
+                            maskRef = TextMaskRef
                         ),
                     text = "Some Text",
                     style = TextStyle(
@@ -49,7 +60,8 @@ class MainActivity : ComponentActivity() {
                         .padding(top = 100.dp)
                         .addTooltip(
                             InitialTooltipScene,
-                            ButtonMaskRef
+                            ButtonMaskRef,
+                            maskType = MaskType.RoundRect(20.dp)
                         ),
                     onClick = {}
                 ) {

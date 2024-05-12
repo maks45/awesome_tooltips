@@ -11,10 +11,10 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.dp
+import com.awesome.tooltips.data.TooltipData
 import com.awesome.tooltips.mask.MaskRef
 import com.awesome.tooltips.mask.MaskType
-import com.awesome.tooltips.data.TooltipData
 import com.awesome.tooltips.scene.TooltipScene
 
 fun Modifier.addTooltip(
@@ -47,7 +47,7 @@ fun Modifier.drawMasks(
             drawContent()
             dataList.onEach {
                 when (it.maskType) {
-                    //todo
+                    is MaskType.RoundRect -> drawRoundedRectMask(data = it)
                     is MaskType.None -> Unit
                     else -> drawRectMask(data = it)
                 }
@@ -55,19 +55,19 @@ fun Modifier.drawMasks(
         }
 }
 
-/*private fun DrawScope.drawRoundedRectMask(
-    data: TooltipData,
-    density: Density
+private fun DrawScope.drawRoundedRectMask(
+    data: TooltipData
 ) {
-    val cornerRadius = (data.maskType as? MaskType.RoundRect) ?.cornerRadiusDp ?: 0f
+    val cornerRadius = (data.maskType as? MaskType.RoundRect) ?.cornerRadius ?: 0.dp
+    val radiusPx = density.run { cornerRadius.toPx() }
     drawRoundRect(
-        cornerRadius = CornerRadius(x = cornerRadius, y = cornerRadius),
+        cornerRadius = CornerRadius(x = radiusPx, y = radiusPx),
         topLeft = Offset(data.offset.x, data.offset.y),
         size = Size(height = data.size.height, width = data.size.width),
         color = Color.Transparent,
         blendMode = BlendMode.Clear
     )
-}*/
+}
 
 private fun DrawScope.drawRectMask(
     data: TooltipData
