@@ -5,6 +5,6 @@ import androidx.compose.ui.unit.Dp
 sealed interface MaskType {
     data object None: MaskType
     data object Rect : MaskType
-    data class Circle(val size: Dp) : MaskType
+    data class Circle(val radius: Dp) : MaskType
     data class RoundRect(val cornerRadius: Dp) : MaskType
 }

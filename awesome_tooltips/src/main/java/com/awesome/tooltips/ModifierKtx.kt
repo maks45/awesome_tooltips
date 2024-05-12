@@ -25,18 +25,18 @@ fun Modifier.addTooltip(
     maskType: MaskType = MaskType.Rect,
     tooltipDataProvider: TooltipDataProvider = DefaultTooltipDataProvider
 ): Modifier = this.onGloballyPositioned {
-        val left = it.boundsInRoot().left
-        val top = it.boundsInRoot().top
-        val width = it.boundsInRoot().width
-        val height = it.boundsInRoot().height
-        val data = TooltipData(
-            offset = Offset(x = left, y = top),
-            size = Size(width = width, height = height),
-            maskType = maskType,
-            maskRef = maskRef
-        )
-        tooltipDataProvider.addTooltipData(tooltipScene, data)
-    }
+    val left = it.boundsInRoot().left
+    val top = it.boundsInRoot().top
+    val width = it.boundsInRoot().width
+    val height = it.boundsInRoot().height
+    val data = TooltipData(
+        offset = Offset(x = left, y = top),
+        size = Size(width = width, height = height),
+        maskType = maskType,
+        maskRef = maskRef
+    )
+    tooltipDataProvider.addTooltipData(tooltipScene, data)
+}
 
 fun Modifier.drawMasks(
     dataList: List<TooltipData>,
@@ -49,18 +49,32 @@ fun Modifier.drawMasks(
             drawContent()
             dataList.onEach {
                 when (it.maskType) {
+                    is MaskType.Circle -> drawCircleMask(data = it)
+                    is MaskType.Rect -> drawRectMask(data = it)
                     is MaskType.RoundRect -> drawRoundedRectMask(data = it)
-                    is MaskType.None -> Unit
-                    else -> drawRectMask(data = it)
+                    else -> Unit
                 }
             }
         }
 }
 
+private fun DrawScope.drawCircleMask(
+    data: TooltipData
+) {
+    val radius = (data.maskType as? MaskType.Circle)?.radius ?: 0.dp
+    val radiusPx = density.run { radius.toPx() }
+    drawCircle(
+        radius = radiusPx,
+        center = Offset(data.offset.x + size.width / 2, data.offset.y + size.height / 2),
+        color = Color.Transparent,
+        blendMode = BlendMode.Clear
+    )
+}
+
 private fun DrawScope.drawRoundedRectMask(
     data: TooltipData
 ) {
-    val cornerRadius = (data.maskType as? MaskType.RoundRect) ?.cornerRadius ?: 0.dp
+    val cornerRadius = (data.maskType as? MaskType.RoundRect)?.cornerRadius ?: 0.dp
     val radiusPx = density.run { cornerRadius.toPx() }
     drawRoundRect(
         cornerRadius = CornerRadius(x = radiusPx, y = radiusPx),
