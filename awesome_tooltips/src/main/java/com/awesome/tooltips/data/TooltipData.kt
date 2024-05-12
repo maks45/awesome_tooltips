@@ -1,9 +1,9 @@
-package com.awesome.tooltips
+package com.awesome.tooltips.data
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import com.awesome.tooltips.mask.MaskRef
-import com.awersome.tooltips.mask.MaskType
+import com.awesome.tooltips.mask.MaskType
 
 data class TooltipData(
     val offset: Offset,

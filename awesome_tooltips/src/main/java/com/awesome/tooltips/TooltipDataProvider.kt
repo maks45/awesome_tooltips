@@ -1,12 +1,15 @@
 package com.awesome.tooltips
 
+import com.awesome.tooltips.data.TooltipData
+import com.awesome.tooltips.scene.TooltipScene
+
 interface TooltipDataProvider {
 
-    fun tooltipData(tooltip: Tooltip): List<TooltipData>
+    fun tooltipData(tooltipScene: TooltipScene): List<TooltipData>
 
-    fun addTooltipData(tooltip: Tooltip, data: TooltipData)
+    fun addTooltipData(tooltipScene: TooltipScene, data: TooltipData)
 
-    fun removeTooltipData(tooltip: Tooltip)
+    fun removeTooltipData(tooltipScene: TooltipScene)
 
     fun clearDataMap()
 

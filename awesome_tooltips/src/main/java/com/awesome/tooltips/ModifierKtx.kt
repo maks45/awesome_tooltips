@@ -1,7 +1,6 @@
 package com.awesome.tooltips
 
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -12,11 +11,14 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.unit.Density
 import com.awesome.tooltips.mask.MaskRef
-import com.awersome.tooltips.mask.MaskType
+import com.awesome.tooltips.mask.MaskType
+import com.awesome.tooltips.data.TooltipData
+import com.awesome.tooltips.scene.TooltipScene
 
 fun Modifier.addTooltip(
-    tooltip: Tooltip,
+    tooltipScene: TooltipScene,
     maskRef: MaskRef,
     maskType: MaskType = MaskType.Rect,
     tooltipDataProvider: TooltipDataProvider = DefaultTooltipDataProvider
@@ -31,7 +33,7 @@ fun Modifier.addTooltip(
             maskType = maskType,
             maskRef = maskRef
         )
-        tooltipDataProvider.addTooltipData(tooltip, data)
+        tooltipDataProvider.addTooltipData(tooltipScene, data)
     }
 
 fun Modifier.drawMasks(
@@ -47,17 +49,17 @@ fun Modifier.drawMasks(
                 when (it.maskType) {
                     //todo
                     is MaskType.None -> Unit
-                    is MaskType.RoundRect -> drawRoundedRectMask(data = it)
                     else -> drawRectMask(data = it)
                 }
             }
         }
 }
 
-private fun DrawScope.drawRoundedRectMask(
+/*private fun DrawScope.drawRoundedRectMask(
     data: TooltipData,
+    density: Density
 ) {
-    val cornerRadius = (data.maskType as? MaskType.RoundRect) ?.cornerRadius ?: 0f
+    val cornerRadius = (data.maskType as? MaskType.RoundRect) ?.cornerRadiusDp ?: 0f
     drawRoundRect(
         cornerRadius = CornerRadius(x = cornerRadius, y = cornerRadius),
         topLeft = Offset(data.offset.x, data.offset.y),
@@ -65,7 +67,7 @@ private fun DrawScope.drawRoundedRectMask(
         color = Color.Transparent,
         blendMode = BlendMode.Clear
     )
-}
+}*/
 
 private fun DrawScope.drawRectMask(
     data: TooltipData

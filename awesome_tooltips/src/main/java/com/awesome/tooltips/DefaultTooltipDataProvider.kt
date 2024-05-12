@@ -1,24 +1,27 @@
 package com.awesome.tooltips
 
-object DefaultTooltipDataProvider : TooltipDataProvider {
-    private val tooltipOffsetMap = mutableMapOf<Tooltip, MutableList<TooltipData>>()
+import com.awesome.tooltips.data.TooltipData
+import com.awesome.tooltips.scene.TooltipScene
 
-    override fun tooltipData(tooltip: Tooltip): List<TooltipData> {
-        return tooltipOffsetMap.getOrDefault(tooltip, emptyList())
+object DefaultTooltipDataProvider : TooltipDataProvider {
+    private val tooltipSceneOffsetMap = mutableMapOf<TooltipScene, MutableList<TooltipData>>()
+
+    override fun tooltipData(tooltipScene: TooltipScene): List<TooltipData> {
+        return tooltipSceneOffsetMap.getOrDefault(tooltipScene, emptyList())
     }
 
-    override fun addTooltipData(tooltip: Tooltip, data: TooltipData) {
-        tooltipOffsetMap[tooltip]?.add(data) ?: run {
-            tooltipOffsetMap[tooltip] = mutableListOf(data)
+    override fun addTooltipData(tooltipScene: TooltipScene, data: TooltipData) {
+        tooltipSceneOffsetMap[tooltipScene]?.add(data) ?: run {
+            tooltipSceneOffsetMap[tooltipScene] = mutableListOf(data)
         }
     }
 
-    override fun removeTooltipData(tooltip: Tooltip) {
-        tooltipOffsetMap.remove(tooltip)
+    override fun removeTooltipData(tooltipScene: TooltipScene) {
+        tooltipSceneOffsetMap.remove(tooltipScene)
     }
 
     override fun clearDataMap() {
-        tooltipOffsetMap.clear()
+        tooltipSceneOffsetMap.clear()
     }
 
 }

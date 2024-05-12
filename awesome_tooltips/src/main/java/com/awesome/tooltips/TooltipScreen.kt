@@ -9,15 +9,22 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.awesome.tooltips.contentProvider.TooltipElementContentProvider
+import com.awesome.tooltips.contentProvider.TooltipSceneContentProvider
+import com.awesome.tooltips.contentProvider.content.DefaultElementContentProvider
+import com.awesome.tooltips.contentProvider.content.DefaultSceneContentProvider
+import com.awesome.tooltips.scene.Empty
+import com.awesome.tooltips.scene.TooltipScene
 import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun TooltipScreen(
-    tooltipFlow: Flow<Tooltip>,
-    contentProvider: TooltipContentProvider,
+    tooltipSceneFlow: Flow<TooltipScene>,
+    elementContentProvider: TooltipElementContentProvider = DefaultElementContentProvider(),
+    sceneContentProvider: TooltipSceneContentProvider = DefaultSceneContentProvider(),
     dataProvider: TooltipDataProvider = DefaultTooltipDataProvider,
 ) {
-    val tooltipState = tooltipFlow.collectAsState(initial = Empty)
+    val tooltipState = tooltipSceneFlow.collectAsState(initial = Empty)
     val dataList = dataProvider.tooltipData(tooltipState.value)
 
     DisposableEffect(key1 = Unit) {
@@ -31,6 +38,16 @@ fun TooltipScreen(
             .fillMaxSize()
             .drawMasks(dataList = dataList)
     ) {
+        val mainContent = createRef()
+        sceneContentProvider.contentForScene(tooltipState.value).invoke(
+            Modifier.constrainAs(
+                mainContent
+            ) {
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+                top.linkTo(parent.top)
+                bottom.linkTo(parent.bottom)
+            })
         dataList.onEach {
             val (target, content) = createRefs()
             val width = with(LocalDensity.current) { it.size.width.toDp() }
@@ -45,7 +62,7 @@ fun TooltipScreen(
                         top.linkTo(parent.top, offsetY)
                     }
             )
-            contentProvider.contentForMask(it.maskRef).invoke(
+            elementContentProvider.contentForMask(it.maskRef).invoke(
                 Modifier.constrainAs(content) {
                     start.linkTo(target.start)
                     top.linkTo(target.top)

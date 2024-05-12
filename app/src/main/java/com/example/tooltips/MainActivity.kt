@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
                 Text(
                     modifier = Modifier
                         .addTooltip(
-                            InitialTooltip,
+                            InitialTooltipScene,
                             TextMaskRef
                         ),
                     text = "Some Text",
@@ -48,7 +48,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier
                         .padding(top = 100.dp)
                         .addTooltip(
-                            InitialTooltip,
+                            InitialTooltipScene,
                             ButtonMaskRef
                         ),
                     onClick = {}
@@ -59,10 +59,10 @@ class MainActivity : ComponentActivity() {
                 }
             }
             TooltipScreen(
-                tooltipFlow = flow {
-                    emit(InitialTooltip)
+                tooltipSceneFlow = flow {
+                    emit(InitialTooltipScene)
                 },
-                contentProvider = ExampleTooltipContentProvider
+                elementContentProvider = ExampleTooltipElementContentProvider
             )
         }
     }
